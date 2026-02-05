@@ -3,38 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Furniture Marketplace</title>
+    <title>Pro Furniture Store</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script> </head>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
 <body>
-
     <header>
         <div class="logo">PRO<span>FURNISH</span></div>
         <div class="nav-right">
-            <button id="login-btn" onclick="openLogin()">User Login</button> <button class="cart-btn">🛒 Cart (0)</button>
+            <button class="login-btn" onclick="toggleModal()">Login</button>
+            <button class="cart-btn">🛒 Cart</button>
         </div>
     </header>
 
     <div class="product-grid">
         <div class="product-card">
-            <div id="model-1" class="model-container"></div> <h3>Executive Bed v1</h3>
-            <p>₹45,999</p>
-            <div class="button-group">
-                <button class="buy-now" onclick="payNow(45999)">Buy Now</button> <button class="book-now" onclick="booking('Bed v1')">WhatsApp</button>
-            </div>
+            <div id="model-1" class="model-container"></div>
+            <h3>Premium 3D Bed</h3>
+            <p>₹45,000</p>
+            <button class="pay-btn" onclick="startPay(45000)">Buy Now</button>
+            <button class="wa-btn" onclick="waBooking('Premium Bed')">WhatsApp</button>
         </div>
         </div>
 
-    <div id="login-modal" class="modal">
+    <div id="loginModal" class="modal">
         <div class="modal-content">
-            <h2>Customer Login</h2>
-            <input type="email" placeholder="Email Address">
+            <h2>User Login</h2>
+            <input type="email" placeholder="Email">
             <input type="password" placeholder="Password">
-            <button class="submit-btn">Login</button>
-            <button onclick="closeLogin()">Close</button>
+            <button class="submit-btn">Enter</button>
+            <button onclick="toggleModal()">Close</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
