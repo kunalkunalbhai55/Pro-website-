@@ -3,54 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Furniture Store</title>
+    <title>Pro Furniture Marketplace</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-</head>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script> </head>
 <body>
 
     <header>
-        <div class="logo">ROYAL<span>FURNITURE</span></div>
-        <a href="tel:+919876543210" class="call-btn">📞 Call Now</a>
+        <div class="logo">PRO<span>FURNISH</span></div>
+        <div class="nav-right">
+            <button id="login-btn" onclick="openLogin()">User Login</button> <button class="cart-btn">🛒 Cart (0)</button>
+        </div>
     </header>
 
-    <section class="hero">
-        <h1>Modern 3D Showroom</h1>
-        <p>Ghar baithe dekhein apni pasand ka furniture</p>
-    </section>
-
     <div class="product-grid">
-        
         <div class="product-card">
-            <div id="model-1" class="model-container">
-                </div>
-            <h3>Luxury King Bed</h3>
-            <p class="price">₹35,000</p>
-            <button class="book-now" onclick="booking('King Bed')">Book on WhatsApp</button>
+            <div id="model-1" class="model-container"></div> <h3>Executive Bed v1</h3>
+            <p>₹45,999</p>
+            <div class="button-group">
+                <button class="buy-now" onclick="payNow(45999)">Buy Now</button> <button class="book-now" onclick="booking('Bed v1')">WhatsApp</button>
+            </div>
+        </div>
         </div>
 
-        <div class="product-card">
-            <div id="model-2" class="model-container"></div>
-            <h3>Teak Wood Sofa</h3>
-            <p class="price">₹25,000</p>
-            <button class="book-now" onclick="booking('Teak Sofa')">Book on WhatsApp</button>
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2>Customer Login</h2>
+            <input type="email" placeholder="Email Address">
+            <input type="password" placeholder="Password">
+            <button class="submit-btn">Login</button>
+            <button onclick="closeLogin()">Close</button>
         </div>
+    </div>
 
-        </div>
-
-    <footer>
-        <p>📍 Varanasi, Uttar Pradesh</p>
-        <a href="https://maps.google.com" target="_blank" class="maps-link">Open in Google Maps</a>
-    </footer>
-
-    <script>
-        function booking(itemName) {
-            // 🚩 यहाँ क्लाइंट का WhatsApp नंबर बदलें
-            const phone = "919876543210"; 
-            const msg = "नमस्ते, मुझे आपकी दुकान से '" + itemName + "' खरीदना है।";
-            window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg));
-        }
-    </script>
-    <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
