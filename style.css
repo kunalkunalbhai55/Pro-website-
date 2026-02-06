@@ -1,12 +1,31 @@
-body { background: #f4f4f4; font-family: 'Segoe UI', sans-serif; margin: 0; }
-header { background: white; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.logo { font-size: 24px; font-weight: bold; color: #333; }
-.logo span { color: #d4a373; }
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 40px; }
-.product-card { background: white; padding: 20px; border-radius: 10px; text-align: center; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.product-card:hover { transform: translateY(-5px); }
-.model-box { height: 250px; background: #eee; border-radius: 8px; margin-bottom: 15px; }
-.price { color: #d4a373; font-size: 20px; font-weight: bold; }
-.buy-now { background: #333; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; margin-bottom: 8px; font-weight: bold; }
-.wa-btn { background: #25d366; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; }
-               
+import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
+import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
+
+function loadModel(containerId, modelPath) {
+    const container = document.getElementById(containerId);
+    if(!container) return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    const light = new THREE.AmbientLight(0xffffff, 1.5);
+    scene.add(light);
+
+    const loader = new GLTFLoader();
+    // 🚩 यहाँ अपनी bed.glb फाइल का सही नाम डालना
+    loader.load(modelPath, (gltf) => {
+        scene.add(gltf.scene);
+        const animate = () => {
+            requestAnimationFrame(animate);
+            gltf.scene.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        };
+        animate();
+    });
+    camera.position.z = 3;
+}
+
+// मॉडल लोड करें
+loadModel('model-1', 'bed.glb');
