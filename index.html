@@ -3,38 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Furniture Store</title>
+    <title>Luxury Furniture Store</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
     <header>
-        <div class="logo">PRO<span>FURNISH</span></div>
-        <div class="nav-right">
-            <button class="login-btn" onclick="toggleModal()">Login</button>
-            <button class="cart-btn">🛒 Cart</button>
+        <div class="logo">HOME<span>ELITE</span></div>
+        <div class="nav-links">
+            <button class="login-btn" onclick="alert('Login System Coming Soon!')">Login</button>
         </div>
     </header>
 
     <div class="product-grid">
         <div class="product-card">
-            <div id="model-1" class="model-container"></div>
-            <h3>Premium 3D Bed</h3>
-            <p>₹45,000</p>
-            <button class="pay-btn" onclick="startPay(45000)">Buy Now</button>
-            <button class="wa-btn" onclick="waBooking('Premium Bed')">WhatsApp</button>
-        </div>
+            <div class="model-box">
+                <div id="model-1" style="height: 100%;"></div>
+            </div>
+            <h3>Premium King Bed</h3>
+            <p class="price">₹12,999</p>
+            <button class="buy-now" onclick="alert('Redirecting to Payment...')">Buy Now</button>
+            <button class="wa-btn" onclick="window.open('https://wa.me/919876543210?text=I want to buy King Bed')">WhatsApp</button>
         </div>
 
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <h2>User Login</h2>
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <button class="submit-btn">Enter</button>
-            <button onclick="toggleModal()">Close</button>
         </div>
-    </div>
 
     <script type="module" src="script.js"></script>
 </body>
