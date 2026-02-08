@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D GYM PRO - स्मार्ट जिम मैनेजमेंट</title>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #ff0080, #00ff88);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+        
+        /* 3D Gym Visualizer */
+        #gym-3d {
+            width: 100%;
+            height: 500px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
+            margin: 40px auto;
+            border: 3px solid #00ff88;
+        }
+        
+        /* Features */
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 60px 5%;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+        .feature-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-10px);
+        }
+        .feature-card i {
+            font-size: 3rem;
+            color: #00ff88;
+            margin-bottom: 20px;
+        }
+        
+        /* Demo Dashboard */
+        .dashboard {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 5%;
+            border: 2px solid #ff0080;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .stat-box {
+            background: rgba(0,255,136,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .cta-btn {
+            background: linear-gradient(90deg, #ff0080, #00ff88);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #ff0080;
+        }
+        
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-decoration: none;
+            box-shadow: 0 5px 20px #25D366;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>आपके जिम का 3D स्मार्ट सॉल्यूशन! 🏋️‍♂️</h1>
+            <p>3D डैशबोर्ड, ऑटोमेटेड मेम्बरशिप, रियल-टाइम अटेंडेंस ट्रैकिंग</p>
+            
+            <!-- 3D Gym Visualizer -->
+            <div id="gym-3d"></div>
+            
+            <button class="cta-btn" onclick="showDemo()">
+                🎬 LIVE डेमो देखें (3D)
+            </button>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="feature-card">
+            <div style="font-size: 3rem;">📱</div>
+            <h3>मोबाइल ऐप + वेबसाइट</h3>
+            <p>मेम्बर्स ऐप से बुकिंग, पेमेंट, प्रोग्रेस ट्रैक करें</p>
+        </div>
+        
+        <div class="feature-card">
+            <div style="font-size: 3rem;">💰</div>
+            <h3>ऑटो पेमेंट रिमाइंडर</h3>
+            <p>व्हाट्सएप्प पर ऑटोमैटिक पेमेंट अलर्ट</p>
+        </div>
+        
+        <div class="feature-card">
+            <div style="font-size: 3rem;">📊</div>
+            <h3>3D एनालिटिक्स</h3>
+            <p>मेम्बर ग्रोथ, रेवेन्यू का 3D ग्राफ</p>
+        </div>
+    </section>
+
+    <!-- Demo Dashboard -->
+    <section class="dashboard">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #00ff88;">
+            लाइव डैशबोर्ड डेमो
+        </h2>
+        <div class="stats">
+            <div class="stat-box">
+                <h3>कुल मेम्बर्स</h3>
+                <h1 id="members-count">150</h1>
+            </div>
+            <div class="stat-box">
+                <h3>मासिक रेवेन्यू</h3>
+                <h1 id="revenue">₹2,50,000</h1>
+            </div>
+            <div class="stat-box">
+                <h3>अटेंडेंस रेट</h3>
+                <h1 id="attendance">78%</h1>
+            </div>
+        </div>
+        
+        <!-- Progress Chart -->
+        <canvas id="progressChart" style="margin-top: 40px; max-width: 800px; margin: 40px auto;"></canvas>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2 style="font-size: 2.5rem;">अपने जिम को 3D टेक्नोलॉजी से अपग्रेड करें!</h2>
+        <p style="color: #aaa; margin-top: 20px;">पहला महीना FREE | सपोर्ट 24/7 | कोडिंग नॉलेज ज़रूरी नहीं</p>
+        
+        <button class="cta-btn" onclick="contactUs()">
+            📞 FREE डेमो बुक करें
+        </button>
+    </section>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/91YOUR_NUMBER?text=मुझे जिम वेबसाइट का डेमो चाहिए" 
+       class="whatsapp-float" target="_blank">
+       📱
+    </a>
+
+    <script>
+        // 3D Gym Scene
+        let scene, camera, renderer, equipment;
+
+        function init3D() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, 
+                document.getElementById('gym-3d').offsetWidth / 
+                document.getElementById('gym-3d').offsetHeight, 
+                0.1, 1000);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(
+                document.getElementById('gym-3d').offsetWidth,
+                document.getElementById('gym-3d').offsetHeight
+            );
+            document.getElementById('gym-3d').appendChild(renderer.domElement);
+            
+            // Add gym equipment
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshPhongMaterial({ color: 0x00ff88 });
+            equipment = new THREE.Mesh(geometry, material);
+            scene.add(equipment);
+            
+            // Add lights
+            const light1 = new THREE.DirectionalLight(0xffffff, 1);
+            light1.position.set(5, 5, 5);
+            scene.add(light1);
+            
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            camera.position.z = 5;
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                equipment.rotation.x += 0.01;
+                equipment.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+        
+        // Live Stats Update
+        function updateStats() {
+            // Simulate live data
+            setInterval(() => {
+                document.getElementById('members-count').innerText = 
+                    Math.floor(150 + Math.random() * 10);
+                document.getElementById('revenue').innerText = 
+                    '₹' + Math.floor(250000 + Math.random() * 50000).toLocaleString();
+                document.getElementById('attendance').innerText = 
+                    Math.floor(75 + Math.random() * 10) + '%';
+            }, 3000);
+        }
+        
+        // Progress Chart
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'नए मेम्बर्स',
+                    data: [12, 19, 15, 25, 22, 30],
+                    borderColor: '#00ff88',
+                    backgroundColor: 'rgba(0,255,136,0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: { color: '#fff' }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    },
+                    y: {
+                        ticks: { color: '#aaa' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                }
+            }
+        });
+        
+        // Demo Functions
+        function showDemo() {
+            alert("🎬 3D डेमो शुरू हो रहा है...\n\n1. 3D जिम व्यू\n2. लाइव अटेंडेंस\n3. पेमेंट डैशबोर्ड\n4. मोबाइल ऐप प्रीव्यू");
+            // Here you would show actual 3D demo
+        }
+        
+        function contactUs() {
+            const phone = "91YOUR_NUMBER";
+            const message = "नमस्ते! मुझे जिम की 3D वेबसाइट का FREE डेमो चाहिए। कृपया संपर्क करें।";
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        
+        // Initialize
+        window.onload = function() {
+            init3D();
+            updateStats();
+            
+            // Auto-start demo for wow effect
+            setTimeout(() => {
+                document.getElementById('gym-3d').style.boxShadow = "0 0 50px #00ff88";
+            }, 1000);
+        };
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = document.getElementById('gym-3d').offsetWidth / 
+                           document.getElementById('gym-3d').offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(
+                document.getElementById('gym-3d').offsetWidth,
+                document.getElementById('gym-3d').offsetHeight
+            );
+        });
+    </script>
+</body>
+  </html>
