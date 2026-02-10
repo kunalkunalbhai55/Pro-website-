@@ -139,6 +139,10 @@
             font-size: 2rem;
             text-decoration: none;
             box-shadow: 0 5px 20px #25D366;
+            z-index: 1000;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -208,15 +212,14 @@
         <h2 style="font-size: 2.5rem;">अपने जिम को 3D टेक्नोलॉजी से अपग्रेड करें!</h2>
         <p style="color: #aaa; margin-top: 20px;">पहला महीना FREE | सपोर्ट 24/7 | कोडिंग नॉलेज ज़रूरी नहीं</p>
         
-        <button class="cta-btn" onclick="919559401761
-         ">
+        <button class="cta-btn" onclick="contactUs()">
             📞 FREE डेमो बुक करें
         </button>
     </section>
 
-    <!-- WhatsApp -->
-    <a href="https://wa.me/91YOUR_NUMBER?text=मुझे जिम वेबसाइट का डेमो चाहिए" 
-       class="whatsapp-float" target="_blank">
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/919559401761?text=नमस्ते! मुझे जिम की 3D वेबसाइट का FREE डेमो चाहिए।" 
+       class="whatsapp-float" target="_blank" title="WhatsApp पर संपर्क करें">
        📱
     </a>
 
@@ -317,8 +320,9 @@
             // Here you would show actual 3D demo
         }
         
+        // WhatsApp Contact Function - FIXED
         function contactUs() {
-            const phone = "91YOUR_NUMBER";
+            const phone = "919559401761";  // सही फॉर्मेट
             const message = "नमस्ते! मुझे जिम की 3D वेबसाइट का FREE डेमो चाहिए। कृपया संपर्क करें।";
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
         }
@@ -346,4 +350,4 @@
         });
     </script>
 </body>
-  </html>
+                </html>
