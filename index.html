@@ -1,60 +1,293 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-    <title>अनिल जिम · 3D GYM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D GYM PRO · बिज़नेस सॉल्यूशन</title>
     <style>
-        body { font-family: sans-serif; background: #0a0f1e; color: white; padding: 15px; }
-        .whatsapp-big {
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #0b0e1a; color: white; padding: 15px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Header */
+        .header { 
+            background: #141c2c; 
+            border-radius: 30px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+            border-left: 5px solid cyan;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .business-name { font-size: 28px; font-weight: bold; color: cyan; }
+        .business-owner { color: #aaccff; font-size: 16px; }
+        
+        /* WhatsApp Button - बड़ा और साफ */
+        .whatsapp-main {
             background: #25D366;
             color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 25px;
+            padding: 15px 30px;
             border-radius: 60px;
             text-decoration: none;
-            display: block;
+            font-size: 22px;
+            font-weight: bold;
+            display: inline-block;
+            border-bottom: 4px solid #128C7E;
+            text-align: center;
+        }
+        
+        /* Stats Boxes */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-box {
+            background: #141c2c;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            border-bottom: 3px solid cyan;
+        }
+        .stat-number { font-size: 35px; font-weight: bold; color: cyan; }
+        .stat-label { font-size: 16px; color: #aaccff; }
+        
+        /* Members Grid */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
             margin: 20px 0;
         }
         .member-card {
             background: #1e2a3a;
-            padding: 15px;
             border-radius: 20px;
-            margin: 10px 0;
+            padding: 20px;
+            border-left: 4px solid #25D366;
         }
-        .admin-panel { display: none; background: gold; padding: 20px; border-radius: 20px; }
-        .show { display: block; }
+        .member-name { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+        .member-detail { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #3a4a6a; }
+        
+        /* Admin Panel - सिर्फ बिज़नेस मालिक के लिए */
+        .admin-section {
+            background: #1a2640;
+            border-radius: 30px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid gold;
+        }
+        .admin-title { color: gold; font-size: 24px; margin-bottom: 20px; }
+        .admin-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .admin-input {
+            flex: 1 1 200px;
+            padding: 15px;
+            background: #0f1a2f;
+            border: 1px solid cyan;
+            border-radius: 40px;
+            color: white;
+            font-size: 16px;
+        }
+        .admin-btn {
+            background: cyan;
+            color: black;
+            padding: 15px 30px;
+            border-radius: 40px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .delete-btn {
+            background: #bc3f3f;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #5f7a9a;
+            margin-top: 30px;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
+<div class="container">
 
-    <!-- GYM NAME -->
-    <h1>🏋️ अनिल जिम</h1>
+    <!-- HEADER - बिज़नेस मालिक की जानकारी -->
+    <div class="header">
+        <div>
+            <div class="business-name" id="businessName">🏋️ अनिल जिम</div>
+            <div class="business-owner" id="businessOwner">अनिल कुमार · मालिक</div>
+        </div>
+        <div>
+            <div style="color: #25D366; font-size: 20px;">📱 +91 98765 43210</div>
+        </div>
+    </div>
 
-    <!-- CLIENT KA WHATSAPP NUMBER (BADA BUTTON) -->
-    <a href="https://wa.me/919559401761" class="whatsapp-big">
-        💬 अनिल सर से बात करें
+    <!-- WHATSAPP BUTTON - लोग यहाँ दबाकर बात करेंगे -->
+    <a href="https://wa.me/919559401761" class="whatsapp-main" style="display: block; margin: 20px 0;">
+        💬 व्हाट्सएप पर बात करें - अनिल सर
     </a>
 
-    <!-- MEMBERS LIST (SIRF DEKHNE KE LIYE) -->
-    <h3>📋 मेंबर्स लिस्ट</h3>
-    <div id="memberList">
-        <div class="member-card">राहुल · ₹2000 · पेड</div>
-        <div class="member-card">मोहित · ₹1500 · पेंडिंग</div>
+    <!-- STATS - कुल हिसाब-किताब -->
+    <div class="stats">
+        <div class="stat-box">
+            <div class="stat-number" id="totalMembers">0</div>
+            <div class="stat-label">कुल सदस्य</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="totalPaid">₹0</div>
+            <div class="stat-label">कुल जमा</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="totalDue">₹0</div>
+            <div class="stat-label">कुल बकाया</div>
+        </div>
     </div>
 
-    <!-- ADMIN PANEL (SIRF CLIENT KO DIKHEGA) -->
-    <button onclick="adminToggle()">🔐 एडमिन पैनल</button>
-    <div id="admin" class="admin-panel">
-        <h4>➕ नया मेंबर जोड़ें</h4>
-        <input placeholder="नाम"><br>
-        <input placeholder="राशि"><br>
-        <button>✅ जोड़ें</button>
+    <!-- MEMBERS LIST - यह सबको दिखेगा, बदल नहीं सकते -->
+    <h2 style="margin: 20px 0 10px 0;">📋 हमारे सदस्य</h2>
+    <div class="members-grid" id="membersList">
+        <!-- JS से भरेगा -->
     </div>
 
-    <script>
-        function adminToggle() {
-            document.getElementById('admin').classList.toggle('show');
+    <!-- ADMIN PANEL - सिर्फ बिज़नेस मालिक को दिखेगा -->
+    <div class="admin-section" id="adminPanel">
+        <div class="admin-title">🔐 एडमिन पैनल (सिर्फ आप देख सकते हैं)</div>
+        
+        <!-- Add Member Form -->
+        <div class="admin-form">
+            <input type="text" class="admin-input" id="memberName" placeholder="सदस्य का नाम">
+            <input type="number" class="admin-input" id="memberAmount" placeholder="राशी (₹)">
+            <select class="admin-input" id="memberStatus">
+                <option value="पेड">✅ पेड</option>
+                <option value="पेंडिंग">⏳ पेंडिंग</option>
+            </select>
+            <button class="admin-btn" onclick="addMember()">➕ सदस्य जोड़ें</button>
+        </div>
+        
+        <!-- Hidden Owner Login (बस एक बार क्लिक करो खोलने के लिए) -->
+        <p style="color: #aaccff; font-size: 14px; cursor: pointer;" onclick="toggleAdmin()">👇 एडमिन पैनल छुपाएं/दिखाएं</p>
+    </div>
+
+    <!-- OWNER LOGIN BUTTON (सिर्फ मालिक जानता है) -->
+    <button onclick="toggleAdmin()" style="background: gold; color: black; padding: 10px; border-radius: 40px; margin: 10px 0; border: none; width: 100%;">
+        👑 मालिक के लिए (यहाँ क्लिक करें)
+    </button>
+
+    <div class="footer">
+        3D GYM PRO · आपका बिज़नेस, आपकी शान
+    </div>
+</div>
+
+<script>
+    // ==================== DATA ====================
+    let members = [
+        { id: 1, name: "राहुल", amount: 2000, status: "पेड" },
+        { id: 2, name: "मोहित", amount: 1500, status: "पेंडिंग" },
+        { id: 3, name: "सुमित", amount: 3000, status: "पेड" }
+    ];
+
+    // बिज़नेस मालिक की जानकारी
+    const businessNumber = "919876543210"; // यहाँ अपना नंबर लगाओ
+    const businessName = "अनिल जिम";
+    const ownerName = "अनिल कुमार";
+
+    // ==================== SHOW DATA ====================
+    function showAll() {
+        // Business info
+        document.getElementById('businessName').innerText = '🏋️ ' + businessName;
+        document.getElementById('businessOwner').innerText = ownerName + ' · मालिक';
+        
+        // WhatsApp button
+        document.querySelector('.whatsapp-main').href = 'https://wa.me/' + businessNumber;
+        document.querySelector('.whatsapp-main').innerHTML = '💬 व्हाट्सएप पर बात करें - ' + ownerName;
+        
+        // Stats
+        let totalMembers = members.length;
+        let totalPaid = 0;
+        let totalDue = 0;
+        
+        members.forEach(m => {
+            if (m.status === "पेड") totalPaid += m.amount;
+            else totalDue += m.amount;
+        });
+        
+        document.getElementById('totalMembers').innerText = totalMembers;
+        document.getElementById('totalPaid').innerText = '₹' + totalPaid;
+        document.getElementById('totalDue').innerText = '₹' + totalDue;
+        
+        // Members list
+        let html = '';
+        members.forEach(m => {
+            html += `
+            <div class="member-card">
+                <div class="member-name">${m.name}</div>
+                <div class="member-detail"><span>💰 राशी:</span> <strong>₹${m.amount}</strong></div>
+                <div class="member-detail"><span>📌 स्थिति:</span> 
+                    <strong style="color: ${m.status === 'पेड' ? '#a0ffb0' : '#ffaa66'}">${m.status}</strong>
+                </div>
+            </div>
+            `;
+        });
+        document.getElementById('membersList').innerHTML = html;
+    }
+
+    // ==================== ADMIN PANEL ====================
+    function toggleAdmin() {
+        let panel = document.getElementById('adminPanel');
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+        } else {
+            panel.style.display = 'none';
         }
-    </script>
+    }
+
+    // Admin panel starting me chhupa hua hai
+    document.getElementById('adminPanel').style.display = 'none';
+
+    // ==================== ADD MEMBER ====================
+    function addMember() {
+        let name = document.getElementById('memberName').value;
+        let amount = parseFloat(document.getElementById('memberAmount').value);
+        let status = document.getElementById('memberStatus').value;
+        
+        if (!name || !amount) {
+            alert('नाम और राशी दोनों भरो');
+            return;
+        }
+        
+        let newId = members.length + 1;
+        members.push({
+            id: newId,
+            name: name,
+            amount: amount,
+            status: status
+        });
+        
+        // Form clear
+        document.getElementById('memberName').value = '';
+        document.getElementById('memberAmount').value = '';
+        
+        showAll();
+    }
+
+    // ==================== START ====================
+    showAll();
+</script>
 </body>
-</html>
+    </html>
