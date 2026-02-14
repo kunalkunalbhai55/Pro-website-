@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 💪 गोल्ड जिम · फाइनल </title>
+    <title> 💪 गोल्ड जिम · प्रो </title>
     <style>
+        /* (same styling as before - keep it clean) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body {
-            background: radial-gradient(circle at 10% 20%, #0f172a, #030614);
-            color: white;
-            padding: 16px;
-        }
+        body { background: radial-gradient(circle at 10% 20%, #0f172a, #030614); color: white; padding: 16px; }
         .container { max-width: 1300px; margin: 0 auto; }
 
         .gym-header {
@@ -21,18 +18,8 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .gym-name {
-            font-size: 56px;
-            font-weight: 900;
-            background: linear-gradient(145deg, #fff, cyan);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .gym-owner {
-            font-size: 28px;
-            color: #ffd966;
-            margin-top: 8px;
-        }
+        .gym-name { font-size: 56px; font-weight: 900; background: linear-gradient(145deg, #fff, cyan); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gym-owner { font-size: 28px; color: #ffd966; margin-top: 8px; }
 
         .whatsapp-block {
             background: #25D366;
@@ -41,36 +28,55 @@
             margin: 20px 0;
             text-align: center;
         }
-        .whatsapp-block a {
-            color: white;
-            text-decoration: none;
-            font-size: 32px;
+        .whatsapp-block a { color: white; text-decoration: none; font-size: 32px; font-weight: bold; }
+
+        /* Admin Button */
+        .admin-toggle {
+            background: gold;
+            color: black;
+            padding: 18px;
+            border-radius: 60px;
+            font-size: 26px;
             font-weight: bold;
+            width: 100%;
+            border: none;
+            margin: 15px 0;
+            cursor: pointer;
         }
 
-        /* MASTER SETUP - सिर्फ पहले फोन में दिखेगा */
-        .master-setup {
+        /* Password Box */
+        .password-box {
             background: #1f2937;
-            border: 4px solid gold;
+            border: 3px solid gold;
             border-radius: 60px;
-            padding: 40px;
-            margin: 30px 0;
+            padding: 30px;
+            margin: 20px 0;
             text-align: center;
-            display: block;
+            display: none;
         }
-        .master-btn {
+        .password-input {
+            background: #0b1a32;
+            border: 2px solid cyan;
+            border-radius: 60px;
+            padding: 18px;
+            font-size: 22px;
+            color: white;
+            width: 300px;
+            max-width: 90%;
+            margin: 15px;
+        }
+        .password-btn {
             background: gold;
             color: black;
             border: none;
             border-radius: 60px;
-            padding: 25px 50px;
-            font-size: 32px;
+            padding: 18px 40px;
+            font-size: 22px;
             font-weight: bold;
             cursor: pointer;
-            margin: 20px;
         }
 
-        /* एडमिन पैनल - सिर्फ मालिक के फोन में दिखेगा */
+        /* Admin Panel (hidden by default) */
         .admin-panel {
             background: #1f2937;
             border: 4px solid gold;
@@ -79,11 +85,7 @@
             margin: 20px 0;
             display: none;
         }
-        .admin-title {
-            color: gold;
-            font-size: 32px;
-            margin-bottom: 25px;
-        }
+        .admin-title { color: gold; font-size: 32px; margin-bottom: 25px; }
         .admin-form {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -133,10 +135,7 @@
             cursor: pointer;
             border: 2px solid #3b68b0;
         }
-        .month-btn.active {
-            background: cyan;
-            color: black;
-        }
+        .month-btn.active { background: cyan; color: black; }
 
         .stats-grid {
             display: grid;
@@ -151,11 +150,7 @@
             text-align: center;
             border-left: 6px solid cyan;
         }
-        .stat-number {
-            font-size: 42px;
-            font-weight: 800;
-            color: cyan;
-        }
+        .stat-number { font-size: 42px; font-weight: 800; color: cyan; }
 
         .members-grid {
             display: grid;
@@ -169,11 +164,7 @@
             padding: 25px;
             border: 1px solid #3f78c0;
         }
-        .member-name {
-            font-size: 28px;
-            font-weight: 700;
-            color: #b5ffff;
-        }
+        .member-name { font-size: 28px; font-weight: 700; color: #b5ffff; }
 
         .footer { text-align: center; color: #6a8bbf; padding: 30px; }
     </style>
@@ -187,25 +178,27 @@
         <div class="gym-owner" id="ownerNameDisplay">राजेश कुमार (मालिक)</div>
     </div>
 
-    <!-- WHATSAPP BUTTON (तुम्हारा नंबर) -->
+    <!-- WHATSAPP BUTTON (aapka number) -->
     <div class="whatsapp-block">
         <a href="https://wa.me/919559401761" target="_blank">
             💬 व्हाट्सएप - 9559401761
         </a>
     </div>
 
-    <!-- 🔐 MASTER SETUP - सिर्फ पहले फोन में दिखेगा -->
-    <div class="master-setup" id="masterSetup">
-        <h1 style="color: gold; margin-bottom: 30px;">👑 यह पहला फोन है?</h1>
-        <button class="master-btn" onclick="setAsMaster()">✅ हाँ, इसे मालिक बनाएं</button>
-        <p style="color: #ffaa66; margin-top: 30px; font-size: 20px;">
-            ⚠️ सिर्फ एक बार दबाएं। इसके बाद यह बटन गायब हो जाएगा।
-        </p>
+    <!-- 🔐 Admin Button (sabko dikhega) -->
+    <button class="admin-toggle" onclick="showPasswordBox()">🔐 एडमिन पैनल खोलें</button>
+
+    <!-- 🔑 Password Box (yahan password dalna hoga) -->
+    <div class="password-box" id="passwordBox">
+        <h2 style="color: gold;">⚙️ एडमिन पैनल के लिए पासवर्ड डालें</h2>
+        <input type="password" class="password-input" id="adminPassword" placeholder="पासवर्ड">
+        <button class="password-btn" onclick="checkPassword()">✅ एडमिन पैनल खोलें</button>
+        <p style="color: #aaccff; margin-top: 15px;">💡 सिर्फ जिम मालिक को पता होगा</p>
     </div>
 
-    <!-- 👑 एडमिन पैनल - सिर्फ मालिक को दिखेगा -->
+    <!-- 👑 Admin Panel (sirf sahi password ke baad dikhega) -->
     <div class="admin-panel" id="adminPanel">
-        <div class="admin-title">⚙️ मालिक पैनल</div>
+        <div class="admin-title">⚙️ एडमिन पैनल</div>
         
         <h3 style="color:cyan;">🏢 जिम की जानकारी</h3>
         <div class="admin-form">
@@ -225,6 +218,7 @@
             </select>
             <button class="admin-btn" onclick="addMember()">➕ जोड़ें</button>
         </div>
+        <p style="color:#aaccff;">📅 तारीख डालना मत भूलना</p>
     </div>
 
     <!-- MONTH TABS -->
@@ -237,17 +231,14 @@
     <h2 style="margin: 30px 0;">📋 सदस्य सूची</h2>
     <div class="members-grid" id="membersList"></div>
 
-    <div class="footer">💗 3D GYM PRO · पहला फोन मालिक, बाकी सब यूजर</div>
+    <div class="footer">💗 3D GYM PRO · पासवर्ड से सुरक्षित</div>
 </div>
 
 <script>
-    // ========== यह GYM की पहचान ==========
-    const GYM_ID = "gold_gym_001";  // हर gym के लिए अलग
+    // ========== PASSWORD SET KARO ==========
+    const ADMIN_PASSWORD = "gym@2026";  // ⚠️ इसे अपनी मर्जी का बनाओ
     
-    // ========== चेक करो - क्या यह फोन मालिक है? ==========
-    let isMaster = localStorage.getItem('master_' + GYM_ID) === 'true';
-    
-    // ========== डेटा (सबके लिए एक ही) ==========
+    // ========== GYM KA DATA ==========
     let gymData = {
         gymName: "गोल्ड जिम",
         ownerName: "राजेश कुमार",
@@ -264,55 +255,45 @@
     };
 
     let currentMonth = "जनवरी 2026";
+    let isAdmin = false;  // kya admin panel khula hai?
 
-    // डेटा लोड करो
+    // Load data from localStorage (sabke liye same)
     function loadData() {
-        let saved = localStorage.getItem('gymData_' + GYM_ID);
+        let saved = localStorage.getItem('gymProData');
         if (saved) {
             gymData = JSON.parse(saved);
-        } else {
-            saveData();
         }
     }
-
-    function saveData() {
-        localStorage.setItem('gymData_' + GYM_ID, JSON.stringify(gymData));
-    }
-
     loadData();
 
-    // ========== मालिक सेट करो ==========
-    window.setAsMaster = function() {
-        localStorage.setItem('master_' + GYM_ID, 'true');
-        isMaster = true;
-        renderAll();
-        alert('✅ यह फोन अब मालिक बन गया है। अब कोई और मालिक नहीं बन सकता।');
+    function saveData() {
+        localStorage.setItem('gymProData', JSON.stringify(gymData));
+    }
+
+    // Show password box
+    window.showPasswordBox = function() {
+        document.getElementById('passwordBox').style.display = 'block';
     };
 
-    // ========== सब रेंडर करो ==========
+    // Check password
+    window.checkPassword = function() {
+        let entered = document.getElementById('adminPassword').value;
+        if (entered === ADMIN_PASSWORD) {
+            isAdmin = true;
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('passwordBox').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            renderAll();
+            alert('✅ एडमिन पैनल खुल गया');
+        } else {
+            alert('❌ गलत पासवर्ड');
+        }
+    };
+
+    // Render everything
     function renderAll() {
-        // Gym info
         document.getElementById('gymNameDisplay').innerText = '💪 ' + gymData.gymName;
         document.getElementById('ownerNameDisplay').innerText = gymData.ownerName + ' (मालिक)';
-
-        // 🔥 सबसे जरूरी हिस्सा - मालिक सेटअप बॉक्स छुपाना/दिखाना
-        if (!isMaster) {
-            // जब तक कोई मालिक नहीं बना, तब तक setup box दिखेगा
-            document.getElementById('masterSetup').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-        } else {
-            // मालिक बन गया है तो setup box हमेशा के लिए छुप जाएगा
-            document.getElementById('masterSetup').style.display = 'none';
-            
-            // एडमिन पैनल सिर्फ मालिक के फोन में दिखेगा
-            if (isMaster) {
-                document.getElementById('adminPanel').style.display = 'block';
-                
-                // Admin panel में values डालो
-                document.getElementById('gymNameInput').value = gymData.gymName;
-                document.getElementById('ownerNameInput').value = gymData.ownerName;
-            }
-        }
 
         // Month tabs
         let months = Object.keys(gymData.months);
@@ -347,25 +328,29 @@
                 <div style="color: ${m.status === 'पेड' ? '#a0ffb0' : '#ffaa66'}; font-size:20px;">${m.status}</div>
                 <div style="color:#aaccff; margin:10px 0;">📅 ${dateStr}</div>
             `;
-            
-            // DELETE बटन सिर्फ मालिक के फोन में दिखे
-            if (isMaster) {
+            if (isAdmin) {
                 membersHtml += `<button class="delete-btn" onclick="deleteMember(${m.id})">🗑️ नाम काटें</button>`;
             }
-            
             membersHtml += `</div>`;
         });
         document.getElementById('membersList').innerHTML = membersHtml;
+
+        // Admin panel mein values set karo
+        if (isAdmin) {
+            document.getElementById('gymNameInput').value = gymData.gymName;
+            document.getElementById('ownerNameInput').value = gymData.ownerName;
+        }
     }
 
-    // ========== FUNCTIONS ==========
+    // Switch month
     window.switchMonth = function(month) {
         currentMonth = month;
         renderAll();
     };
 
+    // Update gym info
     window.updateGymInfo = function() {
-        if (!isMaster) return;
+        if (!isAdmin) return;
         gymData.gymName = document.getElementById('gymNameInput').value || gymData.gymName;
         gymData.ownerName = document.getElementById('ownerNameInput').value || gymData.ownerName;
         saveData();
@@ -373,8 +358,9 @@
         alert('✅ जिम की जानकारी अपडेट हो गई');
     };
 
+    // Add member
     window.addMember = function() {
-        if (!isMaster) return;
+        if (!isAdmin) return;
         let name = document.getElementById('memberName').value;
         let amount = parseFloat(document.getElementById('memberAmount').value);
         let date = document.getElementById('memberDate').value;
@@ -398,13 +384,13 @@
 
         saveData();
         renderAll();
-        
         document.getElementById('memberName').value = '';
         document.getElementById('memberAmount').value = '';
     };
 
+    // Delete member
     window.deleteMember = function(id) {
-        if (!isMaster) return;
+        if (!isAdmin) return;
         if (confirm('क्या सच में इस सदस्य को हटा दें?')) {
             gymData.months[currentMonth] = gymData.months[currentMonth].filter(m => m.id !== id);
             saveData();
@@ -412,7 +398,7 @@
         }
     };
 
-    // शुरू करो
+    // Initial render
     renderAll();
 </script>
 </body>
