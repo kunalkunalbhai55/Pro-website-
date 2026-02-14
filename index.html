@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title> 💗 गोल्ड जिम · प्रो हिसाब </title>
+    <title> 💗 गोल्ड जिम · फाइनल प्रो </title>
     <style>
         /* ========== 3D स्टाइल - फाइनल ========== */
         * {
@@ -184,6 +184,7 @@
             margin-top: 20px;
             cursor: pointer;
             border-bottom: 4px solid #6b1f1f;
+            display: none; /* पहले से छुपा हुआ */
         }
 
         /* मालिक पैनल (शुरू में छुपा) */
@@ -192,7 +193,7 @@
             border: 4px solid gold;
             border-radius: 60px;
             padding: 35px;
-            display: none; /* यही से छुपा है */
+            display: none; /* पहले से छुपा हुआ */
         }
         .owner-title {
             color: gold;
@@ -248,7 +249,7 @@
 <body>
 <div class="container">
 
-    <!-- 👑 मालिक बटन (सिर्फ मालिक जानता है) -->
+    <!-- 👑 मालिक बटन (यह सबको दिखेगा, लेकिन आगे का पैनल सिर्फ मालिक खोलेगा) -->
     <button class="owner-toggle" onclick="toggleOwnerPanel()">🔐 मालिक पैनल खोलें</button>
 
     <!-- 🔒 मालिक पैनल (शुरू में छुपा) -->
@@ -322,10 +323,11 @@
     };
 
     let currentMonth = "जनवरी 2026";
+    let isOwner = false; // यह बताएगा की मालिक पैनल खुला है या नहीं
 
     // लोकल स्टोरेज से लोड
     function loadData() {
-        let saved = localStorage.getItem('gymProMonthsV3');
+        let saved = localStorage.getItem('gymProMonthsV4');
         if (saved) {
             gymData = JSON.parse(saved);
         }
@@ -333,7 +335,7 @@
     loadData();
 
     function saveData() {
-        localStorage.setItem('gymProMonthsV3', JSON.stringify(gymData));
+        localStorage.setItem('gymProMonthsV4', JSON.stringify(gymData));
     }
 
     // ========== रेंडर सब ==========
@@ -383,10 +385,9 @@
         });
         document.getElementById('membersList').innerHTML = membersHtml;
 
-        // डिलीट बटन सिर्फ मालिक पैनल खुला होने पर दिखे
-        let ownerVisible = document.getElementById('ownerPanel').style.display === 'block';
+        // डिलीट बटन सिर्फ तब दिखे जब isOwner सही (true) हो
         document.querySelectorAll('[id^="delete_"]').forEach(btn => {
-            btn.style.display = ownerVisible ? 'block' : 'none';
+            btn.style.display = isOwner ? 'block' : 'none';
         });
     }
 
@@ -407,11 +408,19 @@
 
     window.toggleOwnerPanel = function() {
         let panel = document.getElementById('ownerPanel');
-        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-        renderAll();
+        // Owner पैनल की स्थिति बदलो
+        if (panel.style.display === 'block') {
+            panel.style.display = 'none';
+            isOwner = false;
+        } else {
+            panel.style.display = 'block';
+            isOwner = true;
+        }
+        renderAll(); // फिर से रेंडर करो ताकि डिलीट बटन सही से दिखे/छुपे
     };
 
     window.updateGymInfo = function() {
+        if (!isOwner) return; // सुरक्षा: अगर मालिक नहीं है तो कुछ न करो
         gymData.gymName = document.getElementById('gymNameInput').value || gymData.gymName;
         gymData.ownerName = document.getElementById('ownerNameInput').value || gymData.ownerName;
         saveData();
@@ -420,6 +429,7 @@
     };
 
     window.addMember = function() {
+        if (!isOwner) return; // सुरक्षा: अगर मालिक नहीं है तो कुछ न करो
         let name = document.getElementById('memberName').value;
         let amount = parseFloat(document.getElementById('memberAmount').value);
         let date = document.getElementById('memberDate').value;
@@ -450,6 +460,7 @@
     };
 
     window.deleteMember = function(id) {
+        if (!isOwner) return; // सुरक्षा: अगर मालिक नहीं है तो कुछ न करो
         if (confirm('सदस्य हटा दें?')) {
             gymData.months[currentMonth] = gymData.months[currentMonth].filter(m => m.id !== id);
             saveData();
@@ -457,7 +468,8 @@
         }
     };
 
+    // शुरू में isOwner गलत (false) है, इसलिए कोई भी एडिट/डिलीट ऑप्शन नहीं दिखेगा
     renderAll();
 </script>
 </body>
-    </html>
+                </html>
