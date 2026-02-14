@@ -31,7 +31,6 @@
             background: linear-gradient(135deg, #fff, #aaffff, #6ec8ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px cyan;
             margin-bottom: 10px;
         }
         .gym-owner {
@@ -48,7 +47,7 @@
             border-radius: 60px;
         }
 
-        /* ========== SUPER WHatsApp BUTTON ========== */
+        /* ========== SUPER WhatsApp BUTTON ========== */
         .super-wa {
             background: #25D366;
             padding: 25px 20px;
@@ -118,9 +117,7 @@
             border-radius: 30px;
             padding: 25px;
             border: 1px solid #3a5faa;
-            transition: 0.2s;
         }
-        .member-card:hover { border-color: cyan; box-shadow: 0 0 25px cyan; }
         .member-name {
             font-size: 28px;
             font-weight: 700;
@@ -137,7 +134,7 @@
         .badge-paid { color: #a0ffb0; font-weight: 700; }
         .badge-due { color: #ffaa66; font-weight: 700; }
 
-        /* ========== OWNER PANEL (सिर्फ मालिक देखेगा) ========== */
+        /* ========== OWNER PANEL (सिर्फ मालिक के लिए) ========== */
         .owner-panel {
             background: #2a1f3f;
             border: 3px solid gold;
@@ -149,9 +146,6 @@
             color: gold;
             font-size: 32px;
             margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
         .owner-form {
             display: grid;
@@ -176,16 +170,23 @@
             font-weight: bold;
             cursor: pointer;
         }
+        /* DELETE BUTTON - सिर्फ मालिक को दिखेगा */
         .delete-btn {
             background: #bc3f3f;
             color: white;
             border: none;
             border-radius: 40px;
             padding: 12px 25px;
-            font-size: 16px;
-            margin-top: 15px;
+            font-size: 18px;
+            margin-top: 20px;
             cursor: pointer;
             width: 100%;
+            font-weight: bold;
+            border-bottom: 4px solid #6b1f1f;
+        }
+        .delete-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
         }
         .owner-toggle {
             background: gold;
@@ -223,7 +224,6 @@
             <div class="owner-form">
                 <input class="owner-input" id="gymNameInput" placeholder="जिम का नाम">
                 <input class="owner-input" id="ownerNameInput" placeholder="मालिक का नाम">
-                <input class="owner-input" id="waNumberInput" placeholder="WhatsApp नंबर (10 अंक)">
                 <input class="owner-input" id="addressInput" placeholder="पता">
                 <button class="owner-btn" onclick="updateGymInfo()">✅ अपडेट करें</button>
             </div>
@@ -242,21 +242,21 @@
         </div>
     </div>
 
-    <!-- ========== GYM HEADER (लाइव अपडेट) ========== -->
+    <!-- ========== GYM HEADER ========== -->
     <div class="gym-header" id="gymHeader">
         <div class="gym-name" id="gymNameDisplay">💪 गोल्ड जिम</div>
         <div class="gym-owner" id="ownerNameDisplay">राजेश कुमार (मालिक)</div>
         <div class="gym-address" id="addressDisplay">सेक्टर 17, फरीदाबाद</div>
     </div>
 
-    <!-- ========== SUPER WHatsApp BUTTON (लाइव) ========== -->
+    <!-- ========== SUPER WhatsApp BUTTON (तुम्हारा नंबर) ========== -->
     <div class="super-wa" id="waButton">
         <a href="https://wa.me/919559401761" target="_blank" id="waLink">
             💬 <span>व्हाट्सएप</span> पर बात करें - राजेश सर
         </a>
     </div>
 
-    <!-- ========== STATS (लाइव) ========== -->
+    <!-- ========== STATS ========== -->
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-number" id="totalMembers">0</div>
@@ -272,7 +272,7 @@
         </div>
     </div>
 
-    <!-- ========== MEMBERS LIST (सबको दिखे, बदल न सके) ========== -->
+    <!-- ========== MEMBERS LIST ========== -->
     <div class="section-title">🏋️ हमारे मेंबर</div>
     <div class="members-grid" id="membersList"></div>
 
@@ -283,11 +283,11 @@
 </div>
 
 <script>
-    // ========== DATA (लोकल स्टोरेज) ==========
+    // ========== DATA ==========
     let gymData = {
         gymName: "गोल्ड जिम",
         ownerName: "राजेश कुमार",
-        waNumber: "919876543210",
+        waNumber: "919559401761",  // तुम्हारा नंबर लगा दिया
         address: "सेक्टर 17, फरीदाबाद",
         members: [
             { id: 1, name: "सचिन", amount: 2000, status: "पेड" },
@@ -317,7 +317,7 @@
         document.getElementById('ownerNameDisplay').innerText = gymData.ownerName + ' (मालिक)';
         document.getElementById('addressDisplay').innerText = gymData.address;
         
-        // WhatsApp button
+        // WhatsApp button (तुम्हारा नंबर)
         let waLink = document.getElementById('waLink');
         waLink.href = 'https://wa.me/' + gymData.waNumber;
         waLink.innerHTML = '💬 <span>व्हाट्सएप</span> पर बात करें - ' + gymData.ownerName.split(' ')[0] + ' सर';
@@ -333,7 +333,7 @@
         document.getElementById('totalPaid').innerText = '₹' + totalPaid;
         document.getElementById('totalDue').innerText = '₹' + totalDue;
         
-        // Members list
+        // Members list with DELETE button (सिर्फ owner panel में दिखेगा)
         let html = '';
         gymData.members.forEach(m => {
             html += `
@@ -343,6 +343,8 @@
                 <div class="member-row"><span>📌 स्थिति</span> 
                     <strong class="${m.status === 'पेड' ? 'badge-paid' : 'badge-due'}">${m.status}</strong>
                 </div>
+                <!-- DELETE BUTTON - सिर्फ मालिक देखेगा, user नहीं -->
+                <button class="delete-btn" onclick="deleteMember(${m.id})" id="deleteBtn_${m.id}">🗑️ नाम काटें (हटाएँ)</button>
             </div>
             `;
         });
@@ -351,8 +353,23 @@
         // Owner form में current values डालो
         document.getElementById('gymNameInput').value = gymData.gymName;
         document.getElementById('ownerNameInput').value = gymData.ownerName;
-        document.getElementById('waNumberInput').value = gymData.waNumber;
         document.getElementById('addressInput').value = gymData.address;
+        
+        // DELETE बटन छुपाएं या दिखाएं (owner panel के हिसाब से)
+        let ownerPanel = document.getElementById('ownerPanel');
+        let isOwnerVisible = (ownerPanel.style.display === 'block');
+        document.querySelectorAll('[id^="deleteBtn_"]').forEach(btn => {
+            btn.style.display = isOwnerVisible ? 'block' : 'none';
+        });
+    }
+
+    // ========== DELETE MEMBER (नाम काटें) ==========
+    function deleteMember(id) {
+        if (confirm('क्या सच में इस सदस्य को हटा दें?')) {
+            gymData.members = gymData.members.filter(m => m.id !== id);
+            saveData();
+            renderAll();
+        }
     }
 
     // ========== OWNER PANEL TOGGLE ==========
@@ -363,13 +380,13 @@
         } else {
             panel.style.display = 'none';
         }
+        renderAll();  // DELETE बटन छुपाने/दिखाने के लिए
     }
 
     // ========== GYM INFO UPDATE ==========
     function updateGymInfo() {
         gymData.gymName = document.getElementById('gymNameInput').value || gymData.gymName;
         gymData.ownerName = document.getElementById('ownerNameInput').value || gymData.ownerName;
-        gymData.waNumber = document.getElementById('waNumberInput').value || gymData.waNumber;
         gymData.address = document.getElementById('addressInput').value || gymData.address;
         
         saveData();
@@ -410,4 +427,4 @@
     renderAll();
 </script>
 </body>
-        </html>
+                </html>
