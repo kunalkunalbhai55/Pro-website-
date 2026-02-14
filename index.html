@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 💪 गोल्ड जिम · फाइनल प्रो </title>
+    <title> 💪 गोल्ड जिम · फाइनल </title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body {
@@ -13,7 +13,6 @@
         }
         .container { max-width: 1300px; margin: 0 auto; }
 
-        /* Header */
         .gym-header {
             background: linear-gradient(135deg, #0b1a33, #071126);
             border: 2px solid cyan;
@@ -35,7 +34,6 @@
             margin-top: 8px;
         }
 
-        /* WhatsApp */
         .whatsapp-block {
             background: #25D366;
             border-radius: 100px;
@@ -50,36 +48,29 @@
             font-weight: bold;
         }
 
-        /* Master Phone Setup */
+        /* MASTER SETUP - सिर्फ पहले फोन में दिखेगा */
         .master-setup {
             background: #1f2937;
             border: 4px solid gold;
             border-radius: 60px;
-            padding: 30px;
-            margin: 20px 0;
+            padding: 40px;
+            margin: 30px 0;
             text-align: center;
+            display: block;
         }
         .master-btn {
             background: gold;
             color: black;
             border: none;
             border-radius: 60px;
-            padding: 20px 40px;
-            font-size: 28px;
+            padding: 25px 50px;
+            font-size: 32px;
             font-weight: bold;
             cursor: pointer;
-            margin: 15px;
-        }
-        .master-badge {
-            background: gold;
-            color: black;
-            padding: 15px 30px;
-            border-radius: 60px;
-            font-size: 24px;
-            display: inline-block;
+            margin: 20px;
         }
 
-        /* Admin Panel (सिर्फ master phone में दिखेगा) */
+        /* एडमिन पैनल - सिर्फ मालिक के फोन में दिखेगा */
         .admin-panel {
             background: #1f2937;
             border: 4px solid gold;
@@ -125,10 +116,8 @@
             margin-top: 15px;
             font-weight: bold;
             cursor: pointer;
-            display: none; /* पहले से छुपा */
         }
 
-        /* Month Tabs */
         .month-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -149,7 +138,6 @@
             color: black;
         }
 
-        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -169,7 +157,6 @@
             color: cyan;
         }
 
-        /* Members Grid */
         .members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -207,18 +194,19 @@
         </a>
     </div>
 
-    <!-- 🔐 MASTER PHONE SETUP - सिर्फ पहली बार दिखेगा -->
+    <!-- 🔐 MASTER SETUP - सिर्फ पहले फोन में दिखेगा -->
     <div class="master-setup" id="masterSetup">
-        <h2 style="color: gold; margin-bottom: 20px;">👑 इस फोन को मालिक बनाएं</h2>
-        <button class="master-btn" onclick="setAsMaster()">✅ हाँ, यही मालिक का फोन है</button>
-        <p style="color: #aaccff; margin-top: 20px;">⚠️ सिर्फ एक बार दबाएं। बाद में यह बटन गायब हो जाएगा।</p>
+        <h1 style="color: gold; margin-bottom: 30px;">👑 यह पहला फोन है?</h1>
+        <button class="master-btn" onclick="setAsMaster()">✅ हाँ, इसे मालिक बनाएं</button>
+        <p style="color: #ffaa66; margin-top: 30px; font-size: 20px;">
+            ⚠️ सिर्फ एक बार दबाएं। इसके बाद यह बटन गायब हो जाएगा।
+        </p>
     </div>
 
-    <!-- 👑 एडमिन पैनल (सिर्फ मालिक के फोन में दिखेगा) -->
+    <!-- 👑 एडमिन पैनल - सिर्फ मालिक को दिखेगा -->
     <div class="admin-panel" id="adminPanel">
-        <div class="admin-title">⚙️ मालिक पैनल (सिर्फ आप देख सकते हैं)</div>
+        <div class="admin-title">⚙️ मालिक पैनल</div>
         
-        <!-- Gym Info Edit -->
         <h3 style="color:cyan;">🏢 जिम की जानकारी</h3>
         <div class="admin-form">
             <input class="admin-input" id="gymNameInput" placeholder="जिम का नाम">
@@ -226,7 +214,6 @@
             <button class="admin-btn" onclick="updateGymInfo()">✅ अपडेट</button>
         </div>
 
-        <!-- Add Member -->
         <h3 style="color:cyan;">➕ नया सदस्य (तारीख के साथ)</h3>
         <div class="admin-form">
             <input class="admin-input" id="memberName" placeholder="नाम">
@@ -238,7 +225,6 @@
             </select>
             <button class="admin-btn" onclick="addMember()">➕ जोड़ें</button>
         </div>
-        <p style="color:#aaccff;">📅 तारीख डालना मत भूलना</p>
     </div>
 
     <!-- MONTH TABS -->
@@ -251,18 +237,17 @@
     <h2 style="margin: 30px 0;">📋 सदस्य सूची</h2>
     <div class="members-grid" id="membersList"></div>
 
-    <div class="footer">💗 3D GYM PRO · सिर्फ एक फोन मालिक</div>
+    <div class="footer">💗 3D GYM PRO · पहला फोन मालिक, बाकी सब यूजर</div>
 </div>
 
 <script>
-    // ========== IMPORTANT ==========
-    // यह तय करेगा कि कौन सा फोन मालिक है
+    // ========== यह GYM की पहचान ==========
     const GYM_ID = "gold_gym_001";  // हर gym के लिए अलग
     
-    // ========== MASTER PHONE CHECK ==========
-    let isMasterPhone = localStorage.getItem('masterPhone_' + GYM_ID) === 'true';
+    // ========== चेक करो - क्या यह फोन मालिक है? ==========
+    let isMaster = localStorage.getItem('master_' + GYM_ID) === 'true';
     
-    // ========== डेटा (सबके लिए एक जैसा) ==========
+    // ========== डेटा (सबके लिए एक ही) ==========
     let gymData = {
         gymName: "गोल्ड जिम",
         ownerName: "राजेश कुमार",
@@ -280,7 +265,7 @@
 
     let currentMonth = "जनवरी 2026";
 
-    // लोकल स्टोरेज से डेटा लोड (सबके लिए एक ही जगह)
+    // डेटा लोड करो
     function loadData() {
         let saved = localStorage.getItem('gymData_' + GYM_ID);
         if (saved) {
@@ -296,33 +281,37 @@
 
     loadData();
 
-    // ========== MASTER SETUP ==========
+    // ========== मालिक सेट करो ==========
     window.setAsMaster = function() {
-        localStorage.setItem('masterPhone_' + GYM_ID, 'true');
-        isMasterPhone = true;
-        document.getElementById('masterSetup').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
+        localStorage.setItem('master_' + GYM_ID, 'true');
+        isMaster = true;
         renderAll();
-        alert('✅ यह फोन अब मालिक बन गया है। बाकी सब सिर्फ देखेंगे।');
+        alert('✅ यह फोन अब मालिक बन गया है। अब कोई और मालिक नहीं बन सकता।');
     };
 
-    // ========== रेंडर सब ==========
+    // ========== सब रेंडर करो ==========
     function renderAll() {
         // Gym info
         document.getElementById('gymNameDisplay').innerText = '💪 ' + gymData.gymName;
         document.getElementById('ownerNameDisplay').innerText = gymData.ownerName + ' (मालिक)';
 
-        // Master setup box छुपाओ/दिखाओ
-        if (!isMasterPhone) {
+        // 🔥 सबसे जरूरी हिस्सा - मालिक सेटअप बॉक्स छुपाना/दिखाना
+        if (!isMaster) {
+            // जब तक कोई मालिक नहीं बना, तब तक setup box दिखेगा
             document.getElementById('masterSetup').style.display = 'block';
             document.getElementById('adminPanel').style.display = 'none';
         } else {
+            // मालिक बन गया है तो setup box हमेशा के लिए छुप जाएगा
             document.getElementById('masterSetup').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
             
-            // Admin panel में current values डालो
-            document.getElementById('gymNameInput').value = gymData.gymName;
-            document.getElementById('ownerNameInput').value = gymData.ownerName;
+            // एडमिन पैनल सिर्फ मालिक के फोन में दिखेगा
+            if (isMaster) {
+                document.getElementById('adminPanel').style.display = 'block';
+                
+                // Admin panel में values डालो
+                document.getElementById('gymNameInput').value = gymData.gymName;
+                document.getElementById('ownerNameInput').value = gymData.ownerName;
+            }
         }
 
         // Month tabs
@@ -360,8 +349,8 @@
             `;
             
             // DELETE बटन सिर्फ मालिक के फोन में दिखे
-            if (isMasterPhone) {
-                membersHtml += `<button class="delete-btn" onclick="deleteMember(${m.id})" style="display:block;">🗑️ नाम काटें</button>`;
+            if (isMaster) {
+                membersHtml += `<button class="delete-btn" onclick="deleteMember(${m.id})">🗑️ नाम काटें</button>`;
             }
             
             membersHtml += `</div>`;
@@ -376,7 +365,7 @@
     };
 
     window.updateGymInfo = function() {
-        if (!isMasterPhone) return;
+        if (!isMaster) return;
         gymData.gymName = document.getElementById('gymNameInput').value || gymData.gymName;
         gymData.ownerName = document.getElementById('ownerNameInput').value || gymData.ownerName;
         saveData();
@@ -385,7 +374,7 @@
     };
 
     window.addMember = function() {
-        if (!isMasterPhone) return;
+        if (!isMaster) return;
         let name = document.getElementById('memberName').value;
         let amount = parseFloat(document.getElementById('memberAmount').value);
         let date = document.getElementById('memberDate').value;
@@ -415,7 +404,7 @@
     };
 
     window.deleteMember = function(id) {
-        if (!isMasterPhone) return;
+        if (!isMaster) return;
         if (confirm('क्या सच में इस सदस्य को हटा दें?')) {
             gymData.months[currentMonth] = gymData.months[currentMonth].filter(m => m.id !== id);
             saveData();
@@ -427,4 +416,4 @@
     renderAll();
 </script>
 </body>
-</html>
+    </html>
