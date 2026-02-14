@@ -13,6 +13,7 @@
         }
         .container { max-width: 1300px; margin: 0 auto; }
 
+        /* Header */
         .gym-header {
             background: linear-gradient(135deg, #0b1a33, #071126);
             border: 2px solid cyan;
@@ -34,6 +35,7 @@
             margin-top: 8px;
         }
 
+        /* WhatsApp */
         .whatsapp-block {
             background: #25D366;
             border-radius: 100px;
@@ -48,6 +50,7 @@
             font-weight: bold;
         }
 
+        /* Month Tabs */
         .month-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -68,6 +71,7 @@
             color: black;
         }
 
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -87,6 +91,7 @@
             color: cyan;
         }
 
+        /* Members Grid */
         .members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -105,9 +110,9 @@
             color: #b5ffff;
         }
 
-        /* 🔐 OWNER ONLY BUTTONS */
+        /* 🔐 OWNER ONLY BUTTONS - यही सबसे जरूरी हिस्सा है */
         .owner-only {
-            display: none; /* सिर्फ मालिक के लिए */
+            display: none; /* हर किसी के लिए छुपा हुआ */
         }
         .delete-btn {
             background: #bc3f3f;
@@ -165,10 +170,10 @@
 <body>
 <div class="container">
 
-    <!-- OWNER TOGGLE (सबको दिखेगा) -->
+    <!-- OWNER TOGGLE (यह सबको दिखेगा, लेकिन आगे का काम नहीं कर पाएंगे) -->
     <button class="owner-toggle" onclick="toggleOwnerPanel()">🔐 मालिक पैनल</button>
 
-    <!-- OWNER PANEL (सिर्फ मालिक खोलेगा) -->
+    <!-- OWNER PANEL (यह भी सबको दिखेगा, लेकिन इसमें दिए गए बटन काम नहीं करेंगे) -->
     <div class="owner-panel" id="ownerPanel">
         <h2 style="color: gold;">⚙️ मालिक पैनल</h2>
         
@@ -198,42 +203,41 @@
         <div class="gym-owner" id="ownerNameDisplay">राजेश कुमार (मालिक)</div>
     </div>
 
-    <!-- WHATSAPP BUTTON -->
+    <!-- WHATSAPP BUTTON (यह सबको दिखेगा और काम करेगा) -->
     <div class="whatsapp-block">
         <a href="https://wa.me/919559401761" target="_blank">
             💬 व्हाट्सएप - 9559401761
         </a>
     </div>
 
-    <!-- MONTH TABS -->
+    <!-- MONTH TABS (यह सबको दिखेगा, लेकिन नया महीना सिर्फ मालिक जोड़ पाएगा) -->
     <div class="month-tabs" id="monthTabs"></div>
 
-    <!-- STATS -->
+    <!-- STATS (सबको दिखेगा) -->
     <div class="stats-grid" id="monthStats"></div>
 
-    <!-- MEMBERS LIST -->
+    <!-- MEMBERS LIST (सबको दिखेगा) -->
     <h2 style="margin: 30px 0;">📋 सदस्य सूची</h2>
     <div class="members-grid" id="membersList"></div>
 
-    <div class="footer">💗 3D GYM PRO</div>
+    <div class="footer">💗 3D GYM PRO · सिर्फ मालिक एडिट करे</div>
 </div>
 
 <script>
-    // ========== हर फोन का अपना डेटा ==========
-    // Device ID बनाओ (अलग-अलग फोन की पहचान)
-    function getDeviceId() {
-        let deviceId = localStorage.getItem('deviceId');
-        if (!deviceId) {
-            deviceId = 'device_' + Date.now() + '_' + Math.random();
-            localStorage.setItem('deviceId', deviceId);
-        }
-        return deviceId;
+    // ========== मालिक की पहचान ==========
+    // यह एक कोड है जो ब्राउज़र में सेव हो जाता है और बताता है कि यह मालिक का फोन है या नहीं।
+    // पहली बार जब कोई फोन वेबसाइट खोलेगा, वह मालिक बन जाएगा। उसके बाद वही फोन हमेशा मालिक रहेगा।
+    let OWNER_KEY = "gymProOwner_" + "गोल्ड जिम"; // हर जिम के लिए अलग
+    let isThisDeviceOwner = localStorage.getItem(OWNER_KEY) === 'true';
+    
+    // अगर यह पहली बार है और कोई मालिक नहीं है, तो इस फोन को मालिक बना दो
+    if (!localStorage.getItem(OWNER_KEY)) {
+        // पहला फोन ही मालिक बनेगा
+        localStorage.setItem(OWNER_KEY, 'true');
+        isThisDeviceOwner = true;
     }
 
-    let DEVICE_ID = getDeviceId();
-    let isOwner = false; // मालिक है या नहीं
-
-    // ========== डेटा स्ट्रक्चर ==========
+    // ========== डेटा ==========
     let gymData = {
         gymName: "गोल्ड जिम",
         ownerName: "राजेश कुमार",
@@ -250,20 +254,20 @@
     };
 
     let currentMonth = "जनवरी 2026";
+    let isOwnerPanelOpen = false;
 
-    // लोकल स्टोरेज से लोड (हर डिवाइस का अलग)
+    // लोकल स्टोरेज से लोड (सबके लिए एक ही डेटा)
     function loadData() {
-        let saved = localStorage.getItem('gymData_' + DEVICE_ID);
+        let saved = localStorage.getItem('gymProMasterData');
         if (saved) {
             gymData = JSON.parse(saved);
         } else {
-            // पहली बार में डेमो डेटा सेव करो
             saveData();
         }
     }
 
     function saveData() {
-        localStorage.setItem('gymData_' + DEVICE_ID, JSON.stringify(gymData));
+        localStorage.setItem('gymProMasterData', JSON.stringify(gymData));
     }
 
     loadData();
@@ -273,13 +277,16 @@
         document.getElementById('gymNameDisplay').innerText = '💪 ' + gymData.gymName;
         document.getElementById('ownerNameDisplay').innerText = gymData.ownerName + ' (मालिक)';
 
-        // Month tabs
+        // Month tabs - नया महीना वाला बटन सिर्फ मालिक को दिखे
         let months = Object.keys(gymData.months);
         let tabsHtml = '';
         months.forEach(m => {
             tabsHtml += `<div class="month-btn ${m === currentMonth ? 'active' : ''}" onclick="switchMonth('${m}')">${m}</div>`;
         });
-        tabsHtml += `<div class="month-btn" onclick="addNewMonth()">➕ नया महीना</div>`;
+        // यहाँ चेक: अगर यह मालिक का फोन है तभी "नया महीना" बटन दिखाओ
+        if (isThisDeviceOwner) {
+            tabsHtml += `<div class="month-btn" onclick="addNewMonth()">➕ नया महीना</div>`;
+        }
         document.getElementById('monthTabs').innerHTML = tabsHtml;
 
         let members = gymData.months[currentMonth] || [];
@@ -296,7 +303,7 @@
             <div class="stat-card"><div class="stat-number">₹${totalDue}</div><div>बकाया</div></div>
         `;
 
-        // Members list
+        // Members list - DELETE बटन सिर्फ मालिक को दिखे और वह भी तब जब पैनल खुला हो
         let membersHtml = '';
         members.forEach(m => {
             let dateStr = m.date ? m.date.split('-').reverse().join('-') : 'कोई तारीख नहीं';
@@ -306,23 +313,37 @@
                 <div style="font-size:20px; margin:10px 0;">💰 ₹${m.amount}</div>
                 <div style="color: ${m.status === 'पेड' ? '#a0ffb0' : '#ffaa66'}; font-size:20px;">${m.status}</div>
                 <div style="color:#aaccff; margin:10px 0;">📅 ${dateStr}</div>
-                <!-- DELETE BUTTON - सिर्फ मालिक को दिखेगा -->
-                <button class="delete-btn owner-only" onclick="deleteMember(${m.id})" style="display: ${isOwner ? 'block' : 'none'}">🗑️ नाम काटें</button>
-            </div>
             `;
+            // DELETE बटन: सिर्फ मालिक के लिए और तभी जब पैनल खुला हो
+            if (isThisDeviceOwner && isOwnerPanelOpen) {
+                membersHtml += `<button class="delete-btn" onclick="deleteMember(${m.id})">🗑️ नाम काटें</button>`;
+            }
+            membersHtml += `</div>`;
         });
         document.getElementById('membersList').innerHTML = membersHtml;
+
+        // Owner panel के बटनों को भी कंट्रोल करो - सिर्फ मालिक के लिए
+        if (isThisDeviceOwner) {
+            // मालिक के लिए पैनल के बटन सामान्य रहेंगे
+        } else {
+            // जो यूजर है, उसके लिए पैनल के सारे बटन हटा दो या डिसेबल कर दो
+            // हम उन्हें छुपा देंगे
+            document.querySelectorAll('#ownerPanel button').forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.5';
+            });
+        }
     }
 
-    // ========== FUNCTIONS ==========
+    // ========== FUNCTIONS (सबसे ऊपर सुरक्षा) ==========
     window.switchMonth = function(month) {
         currentMonth = month;
         renderAll();
     };
 
     window.addNewMonth = function() {
-        if (!isOwner) return; // सिर्फ मालिक
-        let newMonth = prompt("नया महीना:");
+        if (!isThisDeviceOwner) return; // सिर्फ मालिक
+        let newMonth = prompt("नया महीना का नाम लिखो (जैसे: मार्च 2026):");
         if (newMonth && !gymData.months[newMonth]) {
             gymData.months[newMonth] = [];
             saveData();
@@ -332,34 +353,36 @@
     };
 
     window.toggleOwnerPanel = function() {
+        // पैनल को खोलना/बंद करना सबके लिए है, लेकिन अंदर के बटन सिर्फ मालिक के लिए काम करेंगे
         let panel = document.getElementById('ownerPanel');
         if (panel.style.display === 'block') {
             panel.style.display = 'none';
-            isOwner = false;
+            isOwnerPanelOpen = false;
         } else {
             panel.style.display = 'block';
-            isOwner = true;
+            isOwnerPanelOpen = true;
         }
-        renderAll();
+        renderAll(); // DELETE बटन दिखाने/छुपाने के लिए
     };
 
     window.updateGymInfo = function() {
-        if (!isOwner) return;
+        if (!isThisDeviceOwner) return; // सिर्फ मालिक
         gymData.gymName = document.getElementById('gymNameInput').value || gymData.gymName;
         gymData.ownerName = document.getElementById('ownerNameInput').value || gymData.ownerName;
         saveData();
         renderAll();
+        alert('✅ जिम की जानकारी अपडेट हो गई');
     };
 
     window.addMember = function() {
-        if (!isOwner) return;
+        if (!isThisDeviceOwner) return; // सिर्फ मालिक
         let name = document.getElementById('memberName').value;
         let amount = parseFloat(document.getElementById('memberAmount').value);
         let date = document.getElementById('memberDate').value;
         let status = document.getElementById('memberStatus').value;
 
         if (!name || !amount || !date) {
-            alert('सब भरो');
+            alert('❌ नाम, राशी और तारीख भरो');
             return;
         }
 
@@ -382,15 +405,16 @@
     };
 
     window.deleteMember = function(id) {
-        if (!isOwner) return;
-        if (confirm('हटाएं?')) {
+        if (!isThisDeviceOwner) return; // सिर्फ मालिक
+        if (confirm('क्या सच में इस सदस्य को हटा दें?')) {
             gymData.months[currentMonth] = gymData.months[currentMonth].filter(m => m.id !== id);
             saveData();
             renderAll();
         }
     };
 
+    // शुरू करो
     renderAll();
 </script>
 </body>
-  </html>
+    </html>
