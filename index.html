@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 💗 गोल्ड जिम · फाइनल प्रो </title>
+    <title> 💪 गोल्ड जिम · प्रो </title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body {
@@ -50,6 +50,52 @@
             font-weight: bold;
         }
 
+        /* Admin Button */
+        .admin-toggle {
+            background: gold;
+            color: black;
+            padding: 18px;
+            border-radius: 60px;
+            font-size: 26px;
+            font-weight: bold;
+            width: 100%;
+            border: none;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+
+        /* Password Box */
+        .password-box {
+            background: #1f2937;
+            border: 3px solid gold;
+            border-radius: 60px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        .password-input {
+            background: #0b1a32;
+            border: 2px solid cyan;
+            border-radius: 60px;
+            padding: 18px;
+            font-size: 22px;
+            color: white;
+            width: 300px;
+            max-width: 90%;
+            margin: 15px;
+        }
+        .password-btn {
+            background: gold;
+            color: black;
+            border: none;
+            border-radius: 60px;
+            padding: 18px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         /* Month Tabs */
         .month-tabs {
             display: flex;
@@ -69,6 +115,11 @@
         .month-btn.active {
             background: cyan;
             color: black;
+        }
+        .month-btn.new {
+            background: gold;
+            color: black;
+            border-color: orange;
         }
 
         /* Stats */
@@ -110,9 +161,41 @@
             color: #b5ffff;
         }
 
-        /* 🔐 OWNER ONLY BUTTONS - यही सबसे जरूरी हिस्सा है */
-        .owner-only {
-            display: none; /* हर किसी के लिए छुपा हुआ */
+        /* Admin Panel (पासवर्ड के बाद खुलेगा) */
+        .admin-panel {
+            background: #1f2937;
+            border: 4px solid gold;
+            border-radius: 60px;
+            padding: 30px;
+            margin: 20px 0;
+            display: none;
+        }
+        .admin-title {
+            color: gold;
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+        .admin-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .admin-input {
+            background: #0b1a32;
+            border: 2px solid cyan;
+            border-radius: 50px;
+            padding: 15px;
+            color: white;
+        }
+        .admin-btn {
+            background: gold;
+            color: black;
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
         }
         .delete-btn {
             background: #bc3f3f;
@@ -125,77 +208,12 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .owner-panel {
-            background: #1f2937;
-            border: 4px solid gold;
-            border-radius: 60px;
-            padding: 30px;
-            display: none;
-        }
-        .owner-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .owner-input {
-            background: #0b1a32;
-            border: 2px solid cyan;
-            border-radius: 50px;
-            padding: 15px;
-            color: white;
-        }
-        .owner-btn {
-            background: gold;
-            color: black;
-            border: none;
-            border-radius: 50px;
-            padding: 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .owner-toggle {
-            background: gold;
-            color: black;
-            padding: 15px;
-            border-radius: 60px;
-            font-size: 22px;
-            width: 100%;
-            margin: 15px 0;
-            cursor: pointer;
-        }
+
         .footer { text-align: center; color: #6a8bbf; padding: 30px; }
     </style>
 </head>
 <body>
 <div class="container">
-
-    <!-- OWNER TOGGLE (यह सबको दिखेगा, लेकिन आगे का काम नहीं कर पाएंगे) -->
-    <button class="owner-toggle" onclick="toggleOwnerPanel()">🔐 मालिक पैनल</button>
-
-    <!-- OWNER PANEL (यह भी सबको दिखेगा, लेकिन इसमें दिए गए बटन काम नहीं करेंगे) -->
-    <div class="owner-panel" id="ownerPanel">
-        <h2 style="color: gold;">⚙️ मालिक पैनल</h2>
-        
-        <h3 style="color:cyan;">🏢 जिम की जानकारी</h3>
-        <div class="owner-form">
-            <input class="owner-input" id="gymNameInput" placeholder="जिम का नाम">
-            <input class="owner-input" id="ownerNameInput" placeholder="मालिक का नाम">
-            <button class="owner-btn" onclick="updateGymInfo()">✅ अपडेट</button>
-        </div>
-
-        <h3 style="color:cyan;">➕ नया सदस्य (तारीख के साथ)</h3>
-        <div class="owner-form">
-            <input class="owner-input" id="memberName" placeholder="नाम">
-            <input class="owner-input" type="number" id="memberAmount" placeholder="राशी">
-            <input class="owner-input" type="date" id="memberDate">
-            <select class="owner-input" id="memberStatus">
-                <option value="पेड">✅ पेड</option>
-                <option value="बकाया">⏳ बकाया</option>
-            </select>
-            <button class="owner-btn" onclick="addMember()">➕ जोड़ें</button>
-        </div>
-    </div>
 
     <!-- GYM HEADER -->
     <div class="gym-header">
@@ -203,39 +221,67 @@
         <div class="gym-owner" id="ownerNameDisplay">राजेश कुमार (मालिक)</div>
     </div>
 
-    <!-- WHATSAPP BUTTON (यह सबको दिखेगा और काम करेगा) -->
+    <!-- WHATSAPP BUTTON (तुम्हारा नंबर) -->
     <div class="whatsapp-block">
         <a href="https://wa.me/919559401761" target="_blank">
             💬 व्हाट्सएप - 9559401761
         </a>
     </div>
 
-    <!-- MONTH TABS (यह सबको दिखेगा, लेकिन नया महीना सिर्फ मालिक जोड़ पाएगा) -->
+    <!-- 🔐 एडमिन बटन (यह सबको दिखेगा) -->
+    <button class="admin-toggle" onclick="showPasswordBox()">🔐 एडमिन पैनल खोलें</button>
+
+    <!-- 🔑 पासवर्ड बॉक्स (यहीं से एडमिन पैनल खुलेगा) -->
+    <div class="password-box" id="passwordBox">
+        <h2 style="color: gold;">⚙️ एडमिन पैनल के लिए पासवर्ड डालें</h2>
+        <input type="password" class="password-input" id="adminPassword" placeholder="पासवर्ड">
+        <button class="password-btn" onclick="checkAdminPassword()">✅ एडमिन पैनल खोलें</button>
+        <p style="color: #aaccff; margin-top: 15px;">💡 सिर्फ जिम मालिक को पता होगा</p>
+    </div>
+
+    <!-- 👑 एडमिन पैनल (सिर्फ सही पासवर्ड के बाद दिखेगा) -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-title">⚙️ एडमिन पैनल</div>
+        
+        <!-- Gym Info Edit -->
+        <h3 style="color:cyan;">🏢 जिम की जानकारी</h3>
+        <div class="admin-form">
+            <input class="admin-input" id="gymNameInput" placeholder="जिम का नाम">
+            <input class="admin-input" id="ownerNameInput" placeholder="मालिक का नाम">
+            <button class="admin-btn" onclick="updateGymInfo()">✅ अपडेट</button>
+        </div>
+
+        <!-- Add Member -->
+        <h3 style="color:cyan;">➕ नया सदस्य (तारीख के साथ)</h3>
+        <div class="admin-form">
+            <input class="admin-input" id="memberName" placeholder="नाम">
+            <input class="admin-input" type="number" id="memberAmount" placeholder="राशी (₹)">
+            <input class="admin-input" type="date" id="memberDate" value="2026-02-15">
+            <select class="admin-input" id="memberStatus">
+                <option value="पेड">✅ पेड</option>
+                <option value="बकाया">⏳ बकाया</option>
+            </select>
+            <button class="admin-btn" onclick="addMember()">➕ जोड़ें</button>
+        </div>
+        <p style="color:#aaccff;">📅 तारीख डालना मत भूलना</p>
+    </div>
+
+    <!-- MONTH TABS -->
     <div class="month-tabs" id="monthTabs"></div>
 
-    <!-- STATS (सबको दिखेगा) -->
+    <!-- STATS -->
     <div class="stats-grid" id="monthStats"></div>
 
-    <!-- MEMBERS LIST (सबको दिखेगा) -->
-    <h2 style="margin: 30px 0;">📋 सदस्य सूची</h2>
+    <!-- MEMBERS LIST -->
+    <h2 style="margin: 30px 0;">📋 सदस्य सूची (हर महीने का हिसाब)</h2>
     <div class="members-grid" id="membersList"></div>
 
-    <div class="footer">💗 3D GYM PRO · सिर्फ मालिक एडिट करे</div>
+    <div class="footer">💗 3D GYM PRO · एडमिन पैनल पासवर्ड से सुरक्षित</div>
 </div>
 
 <script>
-    // ========== मालिक की पहचान ==========
-    // यह एक कोड है जो ब्राउज़र में सेव हो जाता है और बताता है कि यह मालिक का फोन है या नहीं।
-    // पहली बार जब कोई फोन वेबसाइट खोलेगा, वह मालिक बन जाएगा। उसके बाद वही फोन हमेशा मालिक रहेगा।
-    let OWNER_KEY = "gymProOwner_" + "गोल्ड जिम"; // हर जिम के लिए अलग
-    let isThisDeviceOwner = localStorage.getItem(OWNER_KEY) === 'true';
-    
-    // अगर यह पहली बार है और कोई मालिक नहीं है, तो इस फोन को मालिक बना दो
-    if (!localStorage.getItem(OWNER_KEY)) {
-        // पहला फोन ही मालिक बनेगा
-        localStorage.setItem(OWNER_KEY, 'true');
-        isThisDeviceOwner = true;
-    }
+    // ========== पासवर्ड सेट करो ==========
+    const ADMIN_PASSWORD = "gym@123";  // ⚠️ यहाँ अपना पासवर्ड लिखो
 
     // ========== डेटा ==========
     let gymData = {
@@ -254,38 +300,56 @@
     };
 
     let currentMonth = "जनवरी 2026";
-    let isOwnerPanelOpen = false;
+    let isAdmin = false;  // एडमिन है या नहीं
 
-    // लोकल स्टोरेज से लोड (सबके लिए एक ही डेटा)
+    // लोकल स्टोरेज से लोड
     function loadData() {
-        let saved = localStorage.getItem('gymProMasterData');
+        let saved = localStorage.getItem('gymProData');
         if (saved) {
             gymData = JSON.parse(saved);
-        } else {
-            saveData();
         }
     }
-
-    function saveData() {
-        localStorage.setItem('gymProMasterData', JSON.stringify(gymData));
-    }
-
     loadData();
 
-    // ========== रेंडर ==========
+    function saveData() {
+        localStorage.setItem('gymProData', JSON.stringify(gymData));
+    }
+
+    // ========== पासवर्ड बॉक्स दिखाओ ==========
+    window.showPasswordBox = function() {
+        document.getElementById('passwordBox').style.display = 'block';
+    };
+
+    // ========== पासवर्ड चेक करो ==========
+    window.checkAdminPassword = function() {
+        let entered = document.getElementById('adminPassword').value;
+        if (entered === ADMIN_PASSWORD) {
+            isAdmin = true;
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('passwordBox').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            renderAll();
+            alert('✅ एडमिन पैनल खुल गया');
+        } else {
+            alert('❌ गलत पासवर्ड');
+        }
+    };
+
+    // ========== सब रेंडर करो ==========
     function renderAll() {
+        // Gym info
         document.getElementById('gymNameDisplay').innerText = '💪 ' + gymData.gymName;
         document.getElementById('ownerNameDisplay').innerText = gymData.ownerName + ' (मालिक)';
 
-        // Month tabs - नया महीना वाला बटन सिर्फ मालिक को दिखे
+        // Month tabs
         let months = Object.keys(gymData.months);
         let tabsHtml = '';
         months.forEach(m => {
             tabsHtml += `<div class="month-btn ${m === currentMonth ? 'active' : ''}" onclick="switchMonth('${m}')">${m}</div>`;
         });
-        // यहाँ चेक: अगर यह मालिक का फोन है तभी "नया महीना" बटन दिखाओ
-        if (isThisDeviceOwner) {
-            tabsHtml += `<div class="month-btn" onclick="addNewMonth()">➕ नया महीना</div>`;
+        // नया महीना सिर्फ एडमिन को दिखे
+        if (isAdmin) {
+            tabsHtml += `<div class="month-btn new" onclick="addNewMonth()">➕ नया महीना</div>`;
         }
         document.getElementById('monthTabs').innerHTML = tabsHtml;
 
@@ -303,10 +367,10 @@
             <div class="stat-card"><div class="stat-number">₹${totalDue}</div><div>बकाया</div></div>
         `;
 
-        // Members list - DELETE बटन सिर्फ मालिक को दिखे और वह भी तब जब पैनल खुला हो
+        // Members list
         let membersHtml = '';
         members.forEach(m => {
-            let dateStr = m.date ? m.date.split('-').reverse().join('-') : 'कोई तारीख नहीं';
+            let dateStr = m.date ? m.date.split('-').reverse().join('-') : 'तारीख नहीं';
             membersHtml += `
             <div class="member-card">
                 <div class="member-name">${m.name}</div>
@@ -314,35 +378,30 @@
                 <div style="color: ${m.status === 'पेड' ? '#a0ffb0' : '#ffaa66'}; font-size:20px;">${m.status}</div>
                 <div style="color:#aaccff; margin:10px 0;">📅 ${dateStr}</div>
             `;
-            // DELETE बटन: सिर्फ मालिक के लिए और तभी जब पैनल खुला हो
-            if (isThisDeviceOwner && isOwnerPanelOpen) {
+            // DELETE बटन सिर्फ एडमिन को दिखे
+            if (isAdmin) {
                 membersHtml += `<button class="delete-btn" onclick="deleteMember(${m.id})">🗑️ नाम काटें</button>`;
             }
             membersHtml += `</div>`;
         });
         document.getElementById('membersList').innerHTML = membersHtml;
 
-        // Owner panel के बटनों को भी कंट्रोल करो - सिर्फ मालिक के लिए
-        if (isThisDeviceOwner) {
-            // मालिक के लिए पैनल के बटन सामान्य रहेंगे
-        } else {
-            // जो यूजर है, उसके लिए पैनल के सारे बटन हटा दो या डिसेबल कर दो
-            // हम उन्हें छुपा देंगे
-            document.querySelectorAll('#ownerPanel button').forEach(btn => {
-                btn.style.pointerEvents = 'none';
-                btn.style.opacity = '0.5';
-            });
+        // Admin panel में current values डालो
+        if (isAdmin) {
+            document.getElementById('gymNameInput').value = gymData.gymName;
+            document.getElementById('ownerNameInput').value = gymData.ownerName;
         }
     }
 
-    // ========== FUNCTIONS (सबसे ऊपर सुरक्षा) ==========
+    // ========== महीना बदलो ==========
     window.switchMonth = function(month) {
         currentMonth = month;
         renderAll();
     };
 
+    // ========== नया महीना जोड़ो (सिर्फ एडमिन) ==========
     window.addNewMonth = function() {
-        if (!isThisDeviceOwner) return; // सिर्फ मालिक
+        if (!isAdmin) return;
         let newMonth = prompt("नया महीना का नाम लिखो (जैसे: मार्च 2026):");
         if (newMonth && !gymData.months[newMonth]) {
             gymData.months[newMonth] = [];
@@ -352,21 +411,9 @@
         }
     };
 
-    window.toggleOwnerPanel = function() {
-        // पैनल को खोलना/बंद करना सबके लिए है, लेकिन अंदर के बटन सिर्फ मालिक के लिए काम करेंगे
-        let panel = document.getElementById('ownerPanel');
-        if (panel.style.display === 'block') {
-            panel.style.display = 'none';
-            isOwnerPanelOpen = false;
-        } else {
-            panel.style.display = 'block';
-            isOwnerPanelOpen = true;
-        }
-        renderAll(); // DELETE बटन दिखाने/छुपाने के लिए
-    };
-
+    // ========== जिम जानकारी अपडेट (सिर्फ एडमिन) ==========
     window.updateGymInfo = function() {
-        if (!isThisDeviceOwner) return; // सिर्फ मालिक
+        if (!isAdmin) return;
         gymData.gymName = document.getElementById('gymNameInput').value || gymData.gymName;
         gymData.ownerName = document.getElementById('ownerNameInput').value || gymData.ownerName;
         saveData();
@@ -374,8 +421,9 @@
         alert('✅ जिम की जानकारी अपडेट हो गई');
     };
 
+    // ========== नया सदस्य जोड़ो (सिर्फ एडमिन) ==========
     window.addMember = function() {
-        if (!isThisDeviceOwner) return; // सिर्फ मालिक
+        if (!isAdmin) return;
         let name = document.getElementById('memberName').value;
         let amount = parseFloat(document.getElementById('memberAmount').value);
         let date = document.getElementById('memberDate').value;
@@ -400,12 +448,14 @@
         saveData();
         renderAll();
         
+        // Form clear
         document.getElementById('memberName').value = '';
         document.getElementById('memberAmount').value = '';
     };
 
+    // ========== सदस्य हटाओ (सिर्फ एडमिन) ==========
     window.deleteMember = function(id) {
-        if (!isThisDeviceOwner) return; // सिर्फ मालिक
+        if (!isAdmin) return;
         if (confirm('क्या सच में इस सदस्य को हटा दें?')) {
             gymData.months[currentMonth] = gymData.months[currentMonth].filter(m => m.id !== id);
             saveData();
@@ -413,8 +463,8 @@
         }
     };
 
-    // शुरू करो
+    // ========== शुरू करो ==========
     renderAll();
 </script>
 </body>
-    </html>
+</html>
